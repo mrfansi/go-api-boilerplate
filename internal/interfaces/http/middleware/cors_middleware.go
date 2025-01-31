@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/mrfansi/go-api-boilerplate/internal/infrastructure/config"
@@ -44,7 +45,7 @@ func (m *CorsMiddleware) Cors(next http.Handler) http.Handler {
 			}
 
 			if m.config.Cors.MaxAge > 0 {
-				w.Header().Set("Access-Control-Max-Age", string(m.config.Cors.MaxAge))
+				w.Header().Set("Access-Control-Max-Age", strconv.Itoa(m.config.Cors.MaxAge))
 			}
 		}
 

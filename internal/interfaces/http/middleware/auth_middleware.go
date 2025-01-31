@@ -11,6 +11,9 @@ import (
 	"github.com/mrfansi/go-api-boilerplate/internal/domain/errors"
 )
 
+// contextKey is a custom type for context keys to avoid collisions
+type contextKey string
+
 type AuthMiddleware struct {
 	authService service.AuthService
 }
@@ -43,7 +46,7 @@ func (m *AuthMiddleware) Authenticate(next http.Handler) http.Handler {
 		}
 
 		// Add claims to request context
-		ctx := context.WithValue(r.Context(), "claims", claims)
+		ctx := context.WithValue(r.Context(), contextKey("claims"), claims)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
@@ -52,7 +55,7 @@ func (m *AuthMiddleware) Authenticate(next http.Handler) http.Handler {
 func (m *AuthMiddleware) RequireRole(role string) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			claims, ok := r.Context().Value("claims").(jwt.MapClaims)
+			claims, ok := r.Context().Value(contextKey("claims")).(jwt.MapClaims)
 			if !ok {
 				respondWithError(w, http.StatusUnauthorized, errors.ErrUnauthorized)
 				return
