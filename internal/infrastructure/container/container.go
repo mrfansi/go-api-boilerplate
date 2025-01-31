@@ -1,13 +1,15 @@
 package container
 
 import (
+	"github.com/mrfansi/go-api-boilerplate/internal/application/service"
+	domainRepository "github.com/mrfansi/go-api-boilerplate/internal/domain/repository"
 	"github.com/mrfansi/go-api-boilerplate/internal/infrastructure/config"
 	"github.com/mrfansi/go-api-boilerplate/internal/infrastructure/database"
-	"github.com/mrfansi/go-api-boilerplate/internal/infrastructure/repository"
+	infraRepository "github.com/mrfansi/go-api-boilerplate/internal/infrastructure/repository"
 	"github.com/mrfansi/go-api-boilerplate/internal/interfaces/http/handler"
 	"github.com/mrfansi/go-api-boilerplate/internal/interfaces/http/middleware"
-	"github.com/mrfansi/go-api-boilerplate/internal/application/service"
 	"go.uber.org/dig"
+	"gorm.io/gorm"
 )
 
 type Container struct {
@@ -34,7 +36,9 @@ func (c *Container) Configure(cfg *config.Config) error {
 	}
 
 	// Provide repositories
-	if err := c.container.Provide(repository.NewUserRepository); err != nil {
+	if err := c.container.Provide(func(db *gorm.DB) domainRepository.UserRepository {
+		return infraRepository.NewUserRepository(db)
+	}); err != nil {
 		return err
 	}
 

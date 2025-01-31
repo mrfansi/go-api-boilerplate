@@ -65,6 +65,7 @@ func NewRouter(c *container.Container) (http.Handler, error) {
 		// Public routes
 		r.Group(func(r chi.Router) {
 			r.Post("/auth/login", authHandler.Login)
+			r.Post("/users", userHandler.CreateUser) // Moved to public routes
 		})
 
 		// Protected routes
@@ -77,7 +78,6 @@ func NewRouter(c *container.Container) (http.Handler, error) {
 			// User routes
 			r.Route("/users", func(r chi.Router) {
 				r.Get("/", userHandler.ListUsers)
-				r.Post("/", userHandler.CreateUser)
 
 				r.Route("/{id}", func(r chi.Router) {
 					r.Get("/", userHandler.GetUser)

@@ -13,6 +13,7 @@ require (
 	github.com/rs/zerolog v1.31.0
 	github.com/stretchr/testify v1.10.0
 	github.com/swaggo/http-swagger/v2 v2.0.2
+	github.com/swaggo/swag v1.16.2
 	go.uber.org/dig v1.17.1
 	golang.org/x/crypto v0.18.0
 	gorm.io/driver/sqlite v1.5.4
@@ -45,7 +46,6 @@ require (
 	github.com/prometheus/procfs v0.12.0 // indirect
 	github.com/stretchr/objx v0.5.2 // indirect
 	github.com/swaggo/files/v2 v2.0.0 // indirect
-	github.com/swaggo/swag v1.16.2 // indirect
 	golang.org/x/net v0.20.0 // indirect
 	golang.org/x/sys v0.16.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
